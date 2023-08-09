@@ -3,10 +3,10 @@ const makeOrdinal: (words: string) => string = require('./makeOrdinal');
 const isFiniteCustom: (value: number) => boolean = require('./isFinite');
 const isSafeNumber: (value: number) => boolean = require('./isSafeNumber');
 
-
 // Typescript 5.1.6
 const enum NumberMagnitudes {
-    // Сюда можно добавить 0 и 20 Но тогда, пропадет семантика
+    // Как альтернативный подход - сюда можно добавить так же 0 и 20,
+    // но то сделает данные более разнородными
     TEN = 10,
     ONE_HUNDRED = 100,
     ONE_THOUSAND = 1_000,
@@ -98,7 +98,6 @@ function generateWords(number: number, words: ReadonlyArray<string> = []): strin
         return generateWords(0, [...words, numeral]);
     }
 
-
     let orderOfMagnitude:  NumberMagnitudesWithName | undefined = undefined
     if (number < NumberMagnitudes.ONE_THOUSAND) {
         orderOfMagnitude = NumberMagnitudes.ONE_HUNDRED;
@@ -122,7 +121,6 @@ function generateWords(number: number, words: ReadonlyArray<string> = []): strin
     const numeral = numberMagnitudesToString(orderOfMagnitude);
     const end = orderOfMagnitude === NumberMagnitudes.ONE_HUNDRED ? '' : ',';
     const word = generateWords(Math.floor(number / orderOfMagnitude)) + ` ${numeral}${end}`;
-
 
     return generateWords(remainder, [...words, word]);
 }
