@@ -149,4 +149,14 @@ const enum Routes {
 }
 ```
 
-##
+## Можно специфицировать enum через Exclude
+``` ts
+const enum Sizes {
+ Small,
+ Medium,
+ Large,
+ Extra_Large
+}
+
+const largeSize: Exclude<Sizes,  ENumbers.Small | ENumbers.Medium>;
+```

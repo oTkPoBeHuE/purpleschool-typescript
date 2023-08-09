@@ -5,8 +5,8 @@
   "license": "ISC",
   "description": "Typescript course",
   "scripts": {
-    "build": "tsc ./src/index.ts",
-    "dev": "tsc ./src/index.ts --watch"
+    "build": "tsc ./2-typings/index.ts",
+    "dev": "tsc ./2-typings//index.ts --watch"
   },
   "repository": {
     "type": "git",
