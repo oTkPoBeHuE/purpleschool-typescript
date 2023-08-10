@@ -171,5 +171,5 @@ lay
   <summary>Скриншот</summary>
 
 ![Preferences | Languages & Frameworks | TypeScript в поле option --locale ru](https://blog.jetbrains.com/wp-content/uploads/2023/06/Pretty-typeLocale.png)
-<details>
+</details>
 
