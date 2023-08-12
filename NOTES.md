@@ -160,3 +160,104 @@ const enum Sizes {
 
 const largeSize: Exclude<Sizes,  ENumbers.Small | ENumbers.Medium>;
 ```
+
+## Как проверить что switch имеет все возможные cases
+
+- Есть удобный хак:
+
+<details>
+  <summary>Пример исчерпывающие проверки (exhaustiveness checking)</summary>
+
+Пишем специальную функцию.
+``` ts
+function assertUnreachable(x: never): never {
+    throw new Error("Didn't expect to get here");
+}
+```
+
+И далее
+
+``` ts
+enum Color {
+    Red,
+    Green,
+    Blue
+}
+
+function getColorName(c: Color): string {
+    switch(c) {
+        case Color.Red:
+            return 'red';
+        case Color.Green:
+            return 'green';
+    }
+    return assertUnreachable(c); // Type "Color.Blue" is not assignable to type "never"
+}
+```
+
+Суть хака в том что переменной типа `never` нельзя присваивать значения.
+Проверка будет только в том случае если код достижим.
+
+``` ts
+function getColorName(c: Color): string {
+  switch (c) {
+    case Color.Red:
+      return "red";
+    case Color.Green:
+      return "green";
+    // Forgot about Blue
+    default:
+      const exhaustiveCheck: never = c;
+      throw new Error(`Unhandled color case: ${exhaustiveCheck}`);
+  }
+}
+```
+
+</details>
+
+
+
+## В typescript указать типы можно с помощью <>
+
+Но такая запись не работает с React. 
+
+``` ts
+type User = {
+    name: string;
+}
+
+const user = <User> {
+    name: 'Ivan'
+}
+```
+
+## Отличие asserts от is
+
+``` ts
+function isStringAssert(condition: any): asserts value is string {
+    if (typeof value !== 'string') {
+        throw new Error(``);
+    }
+}
+
+value.toUppercase() // Ошибка
+isStringAssert(value)
+value.toUppercase() // Валидно
+```
+
+``` ts
+function isString(value: any): value is string {
+    return typeof value === 'string';
+}
+
+value.toUppercase() // Ошибка
+if(isString(value)){
+  value.toUppercase() // Валидно
+}
+```
+
+## Есть сервисы, которые превращают Json в Typescript
+
+Это может быть полезно, когда у вас есть просто ответ от сервера.
+
+[json-to-typescript](https://transform.tools/json-to-typescript)
