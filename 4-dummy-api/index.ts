@@ -1,5 +1,5 @@
 // Для некоторых типов данных созданы алиасы
-type IPv4 = `${number}.${number}.${number}.${number}`;
+type IPv4 = string;
 type MacAddress = string;
 type SSN = string; // Номер социального обеспечения
 type EIN = string; // Идентификационный номер работодателя
