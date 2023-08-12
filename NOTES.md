@@ -159,7 +159,20 @@ const enum Sizes {
 }
 
 const largeSize: Exclude<Sizes,  ENumbers.Small | ENumbers.Medium>;
-```
+``` 
+lay
+## В WebStorm можно включить локализацию ошибок Typescript
+
+Если у вас WebStorm версии 2023.2 и выше вы можете зайти в 
+`Preferences | Languages & Frameworks | TypeScript` 
+И в поле `option` добавить `--locale ru`
+
+<details>
+  <summary>Скриншот</summary>
+
+![Preferences | Languages & Frameworks | TypeScript в поле option --locale ru](https://blog.jetbrains.com/wp-content/uploads/2023/06/Pretty-typeLocale.png)
+</details>
+
 
 ## Как проверить что switch имеет все возможные cases
 
