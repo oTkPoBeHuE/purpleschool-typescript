@@ -6,7 +6,9 @@ const a: [number, number, ...boolean[]] = [1, 2, true, false, true, true];
 ```
 
 
-## ReadonlyArray
+## В Typescript есть массивоподобные readonly типы
+`ReadonlyArray`, `ReadonlyMap` и `ReadonlySet` 
+
 ``` ts
 const v: readonly number[] = [1, 2, 3];
 const v: ReadonlyArray<number> = [1, 2, 3];
@@ -351,3 +353,29 @@ function isUser(value: unknown): value is User {
 ```
 
 </details>
+
+# Продвинутые техники
+
+## Как складывать числа на Typescript
+
+<details>
+  <summary>Пример исчерпывающие проверки (exhaustiveness checking)</summary>
+
+``` ts
+type Sum<
+A extends number, 
+B extends number, 
+Ac1 extends number[] = [], 
+Ac2 extends number[] = []> =
+    A extends Ac1['length']
+        ?  B extends Ac2['length']
+            ? [...Ac1, ...Ac2]['length']
+            : Sum<A, B, Ac1, [...Ac2, 0]>
+        : Sum<A, B, [...Ac1, 0], Ac2>
+
+
+const value_2: Sum<1, 1> = 2;
+const value_25: Sum<10, 115> = 125;
+```
+
+</ details>
