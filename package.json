@@ -5,8 +5,9 @@
   "license": "ISC",
   "description": "Typescript course",
   "scripts": {
-    "build": "tsc ./2-typings/index.ts",
-    "dev": "tsc ./2-typings//index.ts --watch"
+    "example": "node -v && tsc ./4-dummy-api/index.ts && node --trace-warnings  ./4-dummy-api/index.js",
+    "build": "tsc ./src/index.ts",
+    "dev": "tsc ./src//index.ts --watch"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   "homepage": "https://github.com/oTkPoBeHuE/purpleschool-typescript#readme",
   "devDependencies": {
     "@types/node": "^20.4.9",
+    "prettier": "^3.0.1",
     "typescript": "^5.1.6"
   }
 }
