@@ -378,4 +378,152 @@ const value_2: Sum<1, 1> = 2;
 const value_25: Sum<10, 115> = 125;
 ```
 
-</ details>
+## Еще продвинутые примеры
+
+<details>
+  <summary>Пример исчерпывающие проверки (exhaustiveness checking)</summary>
+
+```ts
+type GetChars<S> =
+    S extends `${infer Char}${infer Rest}` ? Char | GetChars<Rest> : never;
+```
+
+</details>
+
+<details>
+  <summary>Паттерн Builder в котором методы можно вызывать 1 раз</summary>
+
+Мы можем динамически менять класс во время работы с ним.
+
+``` ts
+type OmitSetup<K extends string> = Omit<Setup<K>, K>;
+class Setup<K extends string = never> {
+  step1(): OmitSetup<K | "step1"> { return this as any }
+  step2(): OmitSetup<K | "step2"> { return this as any }
+  step3(): OmitSetup<K | "step3"> { return this as any }
+};
+
+const s = new Setup();
+s.step1().step2().step3(); // okay
+s.step2().step1().step3(); // okay
+s.step1().step2().step1(); // error
+```
+</details>
+
+## Факты о компиляторе
+
+При компиляции в **ES2021** или ниже `TypeScript` будет использовать `WeakMaps` вместо `#`.
+
+<details>
+  <summary>Пример</summary>
+
+``` ts
+"use strict";
+class Dog {
+#barkAmount = 0;
+personality = "happy";
+constructor() { }
+}
+ 
+```
+
+``` js
+"use strict";
+var _Dog_barkAmount;
+class Dog {
+    constructor() {
+        _Dog_barkAmount.set(this, 0);
+        this.personality = "happy";
+    }
+}
+_Dog_barkAmount = new WeakMap();
+```
+
+</details>
+
+
+## Parameter Properties
+
+TypeScript предлагает специальный синтаксис для превращения параметра конструктора в свойство класса с тем же именем и значением. 
+Они называются **Parameter Properties** и создаются путем добавления к аргументу 
+конструктора префикса одного из модификаторов видимости `public`, `private`, `protected` или `readonly`.
+
+<details>
+  <summary>Пример</summary>
+
+``` ts
+class Product implements IProduct {
+     constructor(public id: string, public name: string, public price: number){};
+}
+
+```
+
+Эквивалентно
+
+``` ts
+class Product implements IProduct {
+    id: string;
+    name: string;
+    price: number;
+    
+    constructor(id: string, name: string, price: number) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+}
+```
+
+</details>
+
+
+## Как не потерять контекст
+
+
+<details>
+  <summary>Пример</summary>
+
+В typescript можно передавать this
+
+``` ts
+class Payment {
+    private date = new Date();
+    public getDate() {
+        return this.date
+    }
+}
+
+const payment = new Payment();
+
+
+const user = {
+    id: 1,
+    getPaymentDate: payment.getDate
+}
+
+user.getPaymentDate() // Потеряли контекст
+
+```
+
+``` ts
+class Payment {
+    private date = new Date();
+    public getDate(this: Payment) {
+        // this: Payment будет существовать только в ts, 
+        // в js не попадет! Это подсказка компилятору!!!
+        return this.date
+    }
+}
+
+const payment = new Payment();
+
+
+const user = {
+    id: 1,
+    getPaymentDate: payment.getDate.bind(payment)
+}
+
+user.getPaymentDate() // Если забыли сделать bind, ts будет ругаться!!!!
+```
+
+</details>
