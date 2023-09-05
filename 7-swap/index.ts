@@ -1,4 +1,4 @@
-function swapKeysAndValues<T extends  object>(obj: T):{
+function swapKeysAndValues<T extends  Record<string, string | number>>(obj: T):{
     [K in keyof T as T[K]]: K;
 } {
     return Object.fromEntries(Object.entries(obj).map(arr => arr.reverse()))
