@@ -6,8 +6,10 @@
   "description": "Typescript course",
   "scripts": {
     "example": "node -v && tsc ./4-dummy-api/index.ts && node --trace-warnings  ./4-dummy-api/index.js",
-    "build": "tsc ./src/index.ts",
-    "dev": "tsc ./src//index.ts --watch"
+    "run": "tsc ./src/index.ts && node --trace-warnings  ./src/index.js",
+    "version": "tsc -v",
+    "build": "tsc && node --trace-warnings  ./src/index.js",
+    "dev": "tsc ./src/index.ts --watch"
   },
   "repository": {
     "type": "git",
