@@ -5,7 +5,6 @@
 const a: [number, number, ...boolean[]] = [1, 2, true, false, true, true];
 ```
 
-
 ## В Typescript есть массивоподобные readonly типы
 `ReadonlyArray`, `ReadonlyMap` и `ReadonlySet` 
 
@@ -354,12 +353,39 @@ function isUser(value: unknown): value is User {
 
 </details>
 
+## Indexed Access Types и массивы
+
+Можно 
+
+``` ts
+const roles = ['admin', 'user', 'super-user'] as const
+type roleTypes = typeof roles[number] // 'admin' | 'user' | 'super-user'
+type AdminType = typeof roles[0] // 'admin'
+```
+
+## Uppercase / Lowercase / Capitalize / Uncapitalize
+
+Начиная с `TypeScript 4.1` В компиляторе typescript встроенные типы, для изменения регистра строковых литералов. 
+Ключевое слово `intrinsic` значит что тип встроен в компилятор, самим его использовать нельзя. 
+
+``` ts
+type Uppercase<S extends string> = intrinsic;
+type Lowercase<S extends string> = intrinsic;
+type Capitalize<S extends string> = intrinsic;
+type Uncapitalize<S extends string> = intrinsic;
+```
+
+``` ts
+type Status = 'read' | 'write'
+type Access = `can${Capitalize<Status>}`
+```
+
 # Продвинутые техники
 
 ## Как складывать числа на Typescript
 
 <details>
-  <summary>Пример исчерпывающие проверки (exhaustiveness checking)</summary>
+  <summary>Пример суммы</summary>
 
 ``` ts
 type Sum<
@@ -381,7 +407,7 @@ const value_25: Sum<10, 115> = 125;
 ## Еще продвинутые примеры
 
 <details>
-  <summary>Пример исчерпывающие проверки (exhaustiveness checking)</summary>
+  <summary>Пример</summary>
 
 ```ts
 type GetChars<S> =
